@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../domain/entities/reservation.dart';
 import '../providers/reservation_provider.dart';
@@ -23,7 +22,6 @@ class _CreateReservationPageState extends State<CreateReservationPage> {
 
   String? _selectedFacilityId;
   DateTime _selectedDate = DateTime.now();
-  String? _selectedTimeSlot;
 
   @override
   void dispose() {
@@ -141,10 +139,6 @@ class _CreateReservationPageState extends State<CreateReservationPage> {
                   onTap: _selectDate,
                 ),
               ),
-              const SizedBox(height: 32),
-              _buildSectionTitle(context, 'Horario'),
-              const SizedBox(height: 16),
-              _buildTimeSlotGrid(),
               const SizedBox(height: 40),
               FilledButton.icon(
                 onPressed: _createReservation,
@@ -167,32 +161,6 @@ class _CreateReservationPageState extends State<CreateReservationPage> {
       style: Theme.of(context).textTheme.titleLarge?.copyWith(
         fontWeight: FontWeight.bold,
       ),
-    );
-  }
-
-  Widget _buildTimeSlotGrid() {
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      children: AppConstants.timeSlots.map((time) {
-        final isSelected = _selectedTimeSlot == time;
-        return ChoiceChip(
-          label: Text(time),
-          selected: isSelected,
-          onSelected: (selected) {
-            setState(() {
-              _selectedTimeSlot = selected ? time : null;
-            });
-          },
-          selectedColor: Theme.of(context).colorScheme.primaryContainer,
-          labelStyle: TextStyle(
-            color: isSelected
-                ? Theme.of(context).colorScheme.onPrimaryContainer
-                : Theme.of(context).colorScheme.onSurface,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-          ),
-        );
-      }).toList(),
     );
   }
 
@@ -225,16 +193,6 @@ class _CreateReservationPageState extends State<CreateReservationPage> {
       return;
     }
 
-    if (_selectedTimeSlot == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor selecciona un horario'),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-      return;
-    }
-
     final facilityProvider = context.read<FacilityProvider>();
     final facility = facilityProvider.facilities.firstWhere(
           (f) => f.id == _selectedFacilityId,
@@ -259,7 +217,7 @@ class _CreateReservationPageState extends State<CreateReservationPage> {
       facilityName: facility.name,
       facilityType: facility.type,
       date: _selectedDate,
-      timeSlot: _selectedTimeSlot!,
+      timeSlot: 'Todo el día', // Valor fijo ya que eliminamos la selección de horario
       userName: '${_nameController.text} - ${_eventNameController.text} ($attendees personas)',
       status: 'active',
     );

@@ -24,7 +24,8 @@ class ReservationCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  width: 56,
+                  height: 56,
                   decoration: BoxDecoration(
                     color: _getTypeColor(context, reservation.facilityType),
                     borderRadius: BorderRadius.circular(12),
@@ -45,6 +46,8 @@ class ReservationCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -52,6 +55,8 @@ class ReservationCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -91,7 +96,7 @@ class ReservationCard extends StatelessWidget {
             _buildInfoRow(
               context,
               Icons.access_time_rounded,
-              'Horario',
+              'Duración',
               reservation.timeSlot,
             ),
             if (reservation.status == 'active') ...[

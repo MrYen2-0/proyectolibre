@@ -9,23 +9,6 @@ class AppConstants {
   // Storage Keys
   static const String reservationsKey = 'reservations';
 
-  // Time Slots
-  static const List<String> timeSlots = [
-    '08:00',
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-    '19:00',
-    '20:00',
-    '21:00',
-    '22:00',
-    '23:00',
-  ];
+  // Default time slot (since we removed time selection)
+  static const String defaultTimeSlot = 'Todo el día';
 }
